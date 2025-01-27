@@ -35,6 +35,13 @@ Make sure to install the LLM GGUF Optimised model and place it in a new director
 You can pick any GGUF and change path in server/llm_local.py
 Initially I've used [Ministral-8B-Instruct-2410-GGUF](https://huggingface.co/bartowski/Ministral-8B-Instruct-2410-GGUF) for testing.
 
+### Running the backend
+
+Run the backend using Python:
+```bash
+python server/app.py
+```
+
 ### Running the frontend
 Go to client/ and install 
 ```bash
@@ -46,12 +53,7 @@ Run the frontend using npm:
 ```bash
 npm start
 ```
-### Running the backend
-
-Run the backend using Python:
-```bash
-python server/app.py
-```
+Then you can navidagate to http://localhost:3000/ to use the website :)
 
 ***And now you're ready to go!*** \
 <img width="723" alt="image" src="https://github.com/user-attachments/assets/4e37503d-2212-4bc7-8169-37fc92d89ecb" />
