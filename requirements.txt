@@ -1,0 +1,6 @@
+Flask==2.1.2
+Flask-Cors==3.0.10
+Flask-SQLAlchemy==2.5.1
+openai-whisper
+base64==0.1.0
+llama-cpp-python
