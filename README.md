@@ -1,10 +1,10 @@
 # medscribe: Scribe for Patient Appointments
 
 ## Project Overview
-**Scribe for Patient Appointments** is a Flask-based web application designed to transcribe audio recordings of patient consultations using OpenAI's Whisper model. It stores transcription results alongside additional consultation notes in a SQLite database, making it easier for healthcare providers to manage and review patient consultations.
+**Scribe for Patient Appointments** is a Flask-based web application designed to transcribe audio recordings of patient consultations using OpenAI's Whisper model. It stores transcription results alongside additional consultation notes in a SQLite database, making it easier⏰ for healthcare providers to manage and review patient consultations😷. Tested on MacBook Pro M3 Chip  
 
 ## Features
-- Audio transcription of patient appointments using Whisper.
+- Audio transcription of patient appointments using Whisper. 🤫
 - Note generation from transcript and consult notes in structured format using Mistral served locally with llama-cpp-python.
 
 ## Getting Started
