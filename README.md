@@ -25,7 +25,7 @@ Ensure you have the following installed on your system:
 **Setup and activate python environment**
  ```bash
  conda create -n medscribe python=3.12 anaconda
- conda activate medscribe python=3.6.3
+ conda activate medscribe 
 ```
 **Install requirements for python**
 ```bash
