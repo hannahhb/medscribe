@@ -1,0 +1,17 @@
+{
+    "examples": [
+      {
+        "transcription": "Doctor: Hi Mr. Johnson, what brings you in today? Patient: I’ve been having this dull ache in my right knee for the past three weeks, and it hurts more when I climb stairs or walk for a long time. Doctor: Any injury or trauma recently? Patient: Not really, but I do play pickup basketball on weekends. Doctor: Any swelling or redness? Patient: A bit of swelling, but no redness or warmth. Doctor: Alright, let's have a closer look...",
+        "doctor_notes": "This is a 45-year-old male presenting with a three-week history of right knee pain that worsens on stairs or prolonged walking. He plays basketball weekly but reports no significant trauma. Mild swelling is noted, with no redness. Possible differential includes patellofemoral pain syndrome or a meniscal issue."
+      },
+      {
+        "transcription": "Doctor: Good afternoon, Ms. Bennett. How are you feeling? Patient: Not so great. My throat has been really sore for about four days, and I feel exhausted with occasional headaches. Doctor: Have you had any fever? Patient: A low-grade fever around 100°F for a couple of nights. Doctor: Any cough or nasal congestion? Patient: Slightly stuffy nose, but the main problem is my throat. Doctor: Let me take a look at your throat.",
+        "doctor_notes": "Ms. Bennett is a 27-year-old female complaining of a sore throat for four days, mild fever, and fatigue. She also has mild nasal stuffiness. This presentation is likely a viral pharyngitis, though a strep test could be considered if symptoms worsen."
+      },
+      {
+        "transcription": "Doctor: Good morning, Mr. Garcia. Please tell me about your back issue. Patient: I’ve had lower back pain for about two weeks, and sometimes the pain shoots down my right leg. Doctor: Does it get worse when you sit or stand? Patient: Sitting for a long time aggravates it, while walking around seems to help somewhat. Doctor: Any numbness or tingling in the foot? Patient: Occasionally, yes, with a tingling sensation down to my big toe. Doctor: Have you tried any treatments so far? Patient: Just over-the-counter pain relievers and a heating pad.",
+        "doctor_notes": "Mr. Garcia, 39, presents with a two-week history of lower back pain radiating down the right leg, consistent with sciatica symptoms. Prolonged sitting worsens his pain; mild relief is found on movement. He experiences intermittent tingling from the right calf to the toe, and has tried OTC analgesics and heating pads with partial relief. A disc-related or nerve compression etiology is suspected."
+      }
+    ]
+  }
+  

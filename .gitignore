@@ -1,0 +1,5 @@
+models/*
+.deprecated/*
+instance/*
+ffmpeg*
+client/node_modules/

@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Permissions-Policy" content="microphone=*">
+    <meta charset="UTF-8" />
+    <title>Consultation Recorder</title>
+    <style>
+      /* Basic styling included inline */
+
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: #f8f8f8;
+      }
+
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+      }
+
+
+      h1, h2, h3 {
+        margin-top: 0;
+      }
+
+
+      .notes-section, .record-section, .generate-note, .output-section {
+        margin-bottom: 20px;
+      }
+
+
+      textarea {
+        width: 100%;
+        height: 60px;
+        margin-bottom: 10px;
+      }
+
+
+      #notesList {
+        background: #ececec;
+        padding: 10px;
+        min-height: 50px;
+        margin-bottom: 10px;
+      }
+
+
+      button {
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Consultation Recorder</h1>
+      <div class="patient-section">
+        <h2>Patient Information</h2>
+        <label for="patientName">Patient Name:</label>
+        <input type="text" id="patientName" required>
+      </div>
+
+
+      <!-- Notes Section -->
+      <div class="notes-section">
+        <h2>Doctor's Notes</h2>
+        <textarea id="preNotes" placeholder="Add notes before session..."></textarea>
+        <button id="addPreNotesBtn">Add Pre-Session Notes</button>
+
+
+        <textarea id="liveNotes" placeholder="Add notes during session..."></textarea>
+        <button id="addLiveNotesBtn">Add Live Notes</button>
+
+
+        <h3>All Notes</h3>
+        <div id="notesList"></div>
+      </div>
+
+
+      <!-- Recording Section -->
+      <div class="record-section">
+        <button id="recordBtn" class="start">Start Recording</button>
+        <button id="stopBtn" disabled>Stop Recording</button>
+      </div>
+
+
+      <!-- Generate Final Note -->
+      <div class="generate-note">
+        <button id="generateNoteBtn" disabled>Generate Consultation Note</button>
+      </div>
+
+
+      <!-- Output -->
+      <div class="output-section">
+        <h2>Consultation Note Output</h2>
+        <pre id="consultationNote"></pre>
+      </div>
+    </div>
+
+
+    <!-- Inline JavaScript -->
+    <script>
+      let mediaRecorder;
+      let audioChunks = [];
+      let notes = [];
+
+
+      // Grab elements
+      const recordBtn = document.getElementById('recordBtn');
+      const stopBtn = document.getElementById('stopBtn');
+      const generateNoteBtn = document.getElementById('generateNoteBtn');
+
+
+      const preNotes = document.getElementById('preNotes');
+      const liveNotes = document.getElementById('liveNotes');
+      const addPreNotesBtn = document.getElementById('addPreNotesBtn');
+      const addLiveNotesBtn = document.getElementById('addLiveNotesBtn');
+      const notesList = document.getElementById('notesList');
+      const consultationNoteContainer = document.getElementById('consultationNote');
+
+
+      // 1) Handle Adding Notes
+      addPreNotesBtn.addEventListener('click', () => {
+        const text = preNotes.value.trim();
+        if (text) {
+          notes.push(text);
+          updateNotesList();
+          preNotes.value = '';
+        }
+      });
+
+
+      addLiveNotesBtn.addEventListener('click', () => {
+        const text = liveNotes.value.trim();
+        if (text) {
+          notes.push(text);
+          updateNotesList();
+          liveNotes.value = '';
+        }
+      });
+
+
+      function updateNotesList() {
+        notesList.innerHTML = notes.map(n => `<p>${n}</p>`).join('');
+      }
+
+
+      // 2) Handle Audio Recording
+      recordBtn.addEventListener('click', async () => {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          mediaRecorder = new MediaRecorder(stream);
+          audioChunks = [];
+
+
+          mediaRecorder.addEventListener('dataavailable', event => {
+            if (event.data.size > 0) {
+              audioChunks.push(event.data);
+            }
+          });
+
+
+          mediaRecorder.start();
+          console.log("Recording started.");
+
+
+          // Update button states
+          recordBtn.disabled = true;
+          stopBtn.disabled = false;
+          generateNoteBtn.disabled = true;
+          recordBtn.textContent = 'Recording...';
+        } catch (err) {
+          console.error("Error accessing microphone:", err);
+          alert("Microphone access was denied or not possible.");
+        }
+      });
+
+
+      stopBtn.addEventListener('click', () => {
+        if (mediaRecorder) {
+          mediaRecorder.stop();
+          console.log("Recording stopped.");
+        }
+        recordBtn.disabled = false;
+        stopBtn.disabled = true;
+        generateNoteBtn.disabled = false;
+        recordBtn.textContent = 'Start Recording';
+      });
+
+
+      // 3) Generate Final Consultation Note
+      generateNoteBtn.addEventListener('click', async () => {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+        const base64Audio = await blobToBase64(audioBlob);
+        
+        const patientNameInput = document.getElementById('patientName'); 
+        const patientName = patientNameInput.value || "";
+
+        try {
+          // Send audio + notes to the Flask backend at /api/transcribe
+          const response = await fetch('/api/transcribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              patientName: patientName, 
+              audio: base64Audio,
+              notes: notes
+            })
+          });
+
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Transcription error:', errorData);
+            alert('An error occurred: ' + (errorData.error || 'Unknown error'));
+            return;
+          }
+
+
+          const data = await response.json();
+          consultationNoteContainer.textContent = data.consultationNote || "No note generated.";
+        } catch (error) {
+          console.error("Error in fetch:", error);
+          alert("An error occurred while sending data to the server.");
+        }
+      });
+      async function blobToBase64(blob) {
+        return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        });
+    }
+
+     
+    </script>
+  </body>
+</html>
+
+

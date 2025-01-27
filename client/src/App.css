@@ -1,0 +1,45 @@
+/* App.css */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f8f8f8;
+    font-family: Arial, sans-serif;
+  }
+  
+  .patient-section,
+  .notes-section,
+  .record-section,
+  .generate-note,
+  .output-section {
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  .textarea {
+    width: 100%;
+    height: 60px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  
+  .notes-list {
+    background: #ececec;
+    padding: 10px;
+    min-height: 50px;
+    margin-bottom: 10px;
+  }
+  
+  .pre-block {
+    white-space: pre-wrap;
+    background: #ececec;
+    padding: 10px;
+    min-height: 50px;
+  }
+  
+  button {
+    margin-right: 10px;
+  }
+  
