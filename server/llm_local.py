@@ -4,14 +4,11 @@ from pathlib import Path
 from note import *
 
 import json
+example = pd.read_json("prompts/example.json")
+transciption = example["examples"][0]["transcription"] 
+notes = example["examples"][0]["doctor_notes"] 
+def generate_note(TRANSCRIPTION_TEXT=transciption, DOCTOR_NOTES=notes):
 
-
-def generate_note(TRANSCRIPTION_TEXT=None, DOCTOR_NOTES=None):
-    example = pd.read_json("prompts/example.json")
-
-
-    if TRANSCRIPTION_TEXT==None: TRANSCRIPTION_TEXT = example["examples"][0]["transcription"] 
-    if DOCTOR_NOTES==None: DOCTOR_NOTES = example["examples"][0]["doctor_notes"] 
     
     
     formatted_prompt = PROMPT_TEMPLATE.format(
@@ -36,3 +33,4 @@ def generate_note(TRANSCRIPTION_TEXT=None, DOCTOR_NOTES=None):
 
     return(output['choices'][0]['text'])
 
+# print(generate_note())
